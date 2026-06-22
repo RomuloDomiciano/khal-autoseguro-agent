@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.uv/
+*.egg-info/
+
+# env / secrets (NUNCA commitar)
+.env
+.env.*
+*.key
+*.pem
+
+# OS / editores
+.DS_Store
+.idea/
+.vscode/
+*.log
