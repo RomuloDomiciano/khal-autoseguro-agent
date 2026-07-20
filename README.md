@@ -1,5 +1,7 @@
 # AutoSeguro — Conversational Insurance Agent
 
+*[Leia em português](./README.pt-BR.md)*
+
 A WhatsApp-style agent for a fictional car insurer: it converses with a lead,
 qualifies them, requests a real quote from a deliberately unreliable backend
 service, and either closes the deal or hands off to a human — with explicit
@@ -40,6 +42,7 @@ independently tested against the real `quote-service`, not a mock of it.
 namastex-fde-challenge/
 ├── CHALLENGE.md              # original brief, unmodified
 ├── README.md                 # this file
+├── README.pt-BR.md           # Portuguese (pt-BR) translation of this file
 ├── docker-compose.yml        # brings up the whole stack
 ├── quote-service/            # provided mock quote API — unmodified
 ├── dataset/                  # provided synthetic conversation dataset
