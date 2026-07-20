@@ -24,28 +24,47 @@ export function useConversation() {
   const [isAgentTyping, setIsAgentTyping] = useState(true)
   const conversationIdRef = useRef<string | null>(null)
 
-  useEffect(() => {
-    let cancelled = false
-
+  // Shared by the mount effect and startNewConversation (the "Fazer outra
+  // cotação" button): fires the request and applies whatever it settles
+  // with. Deliberately does nothing synchronously — react-hooks flags
+  // synchronous setState calls made directly in an effect body, so the
+  // mount effect below can only call this, never reset state itself;
+  // startNewConversation resets state first since it runs from a click
+  // handler, not an effect. isCancelled lets the mount effect opt out of
+  // applying a stale response after unmount; a manual restart has no such
+  // window, so it just never cancels.
+  const applyNewConversation = useCallback((isCancelled: () => boolean) => {
     createConversation()
       .then((result) => {
-        if (cancelled) return
+        if (isCancelled()) return
         conversationIdRef.current = result.conversationId ?? null
         setStatus(result.status)
         setMessages(result.messages)
       })
       .catch((err: unknown) => {
-        if (cancelled) return
+        if (isCancelled()) return
         setMessages([systemErrorMessage(`Não foi possível iniciar a conversa (${reasonFor(err)}). Recarregue a página.`)])
       })
       .finally(() => {
-        if (!cancelled) setIsAgentTyping(false)
+        if (!isCancelled()) setIsAgentTyping(false)
       })
+  }, [])
 
+  useEffect(() => {
+    let cancelled = false
+    applyNewConversation(() => cancelled)
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [applyNewConversation])
+
+  const startNewConversation = useCallback(() => {
+    conversationIdRef.current = null
+    setMessages([])
+    setStatus('collecting')
+    setIsAgentTyping(true)
+    applyNewConversation(() => false)
+  }, [applyNewConversation])
 
   const sendMessage = useCallback(
     (text: string) => {
@@ -74,5 +93,5 @@ export function useConversation() {
     [status],
   )
 
-  return { messages, status, isAgentTyping, sendMessage }
+  return { messages, status, isAgentTyping, sendMessage, startNewConversation }
 }

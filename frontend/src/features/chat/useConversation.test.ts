@@ -73,4 +73,50 @@ describe('useConversation', () => {
     act(() => result.current.sendMessage('oi de novo'))
     expect(sendSpy).not.toHaveBeenCalled()
   })
+
+  it('startNewConversation resets to a fresh conversation after resolved/handed_off', async () => {
+    const createSpy = vi.spyOn(api, 'createConversation')
+    createSpy.mockResolvedValueOnce({
+      conversationId: 'conv_1',
+      status: 'resolved',
+      messages: [agentMessage('Sua cotação: R$ 100/mês')],
+    })
+
+    const { result } = renderHook(() => useConversation())
+    await waitFor(() => expect(result.current.isAgentTyping).toBe(false))
+    expect(result.current.status).toBe('resolved')
+
+    createSpy.mockResolvedValueOnce({
+      conversationId: 'conv_2',
+      status: 'collecting',
+      messages: [agentMessage('Oi de novo!')],
+    })
+
+    act(() => result.current.startNewConversation())
+    // Old messages are cleared and status resets synchronously, before the
+    // new conversation's greeting arrives.
+    expect(result.current.messages).toHaveLength(0)
+    expect(result.current.status).toBe('collecting')
+    expect(result.current.isAgentTyping).toBe(true)
+
+    await waitFor(() => expect(result.current.isAgentTyping).toBe(false))
+    expect(result.current.messages).toEqual([expect.objectContaining({ body: 'Oi de novo!' })])
+    expect(result.current.status).toBe('collecting')
+    expect(createSpy).toHaveBeenCalledTimes(2)
+  })
+
+  it('startNewConversation lets sendMessage reach the new conversation id, not the old one', async () => {
+    const createSpy = vi.spyOn(api, 'createConversation')
+    createSpy.mockResolvedValueOnce({ conversationId: 'conv_old', status: 'resolved', messages: [] })
+    const { result } = renderHook(() => useConversation())
+    await waitFor(() => expect(result.current.isAgentTyping).toBe(false))
+
+    createSpy.mockResolvedValueOnce({ conversationId: 'conv_new', status: 'collecting', messages: [] })
+    act(() => result.current.startNewConversation())
+    await waitFor(() => expect(result.current.isAgentTyping).toBe(false))
+
+    const sendSpy = vi.spyOn(api, 'sendMessageToAgent').mockResolvedValue({ status: 'collecting', messages: [] })
+    act(() => result.current.sendMessage('Corolla 2018'))
+    expect(sendSpy).toHaveBeenCalledWith('conv_new', 'Corolla 2018')
+  })
 })

@@ -57,4 +57,43 @@ describe('ChatWindow', () => {
     render(<ChatWindow />)
     expect(await screen.findByText(/não foi possível iniciar a conversa/i)).toBeInTheDocument()
   })
+
+  it.each(['resolved', 'handed_off'] as const)(
+    'shows "Fazer outra cotação" instead of the message input once status is %s',
+    async (status) => {
+      vi.spyOn(api, 'createConversation').mockResolvedValue({
+        conversationId: 'conv_1',
+        status,
+        messages: [agentMessage('Conversa encerrada.')],
+      })
+      render(<ChatWindow />)
+
+      expect(await screen.findByRole('button', { name: /fazer outra cotação/i })).toBeInTheDocument()
+      expect(screen.queryByLabelText('Mensagem')).not.toBeInTheDocument()
+    },
+  )
+
+  it('clicking "Fazer outra cotação" starts a fresh conversation', async () => {
+    const user = userEvent.setup()
+    const createSpy = vi.spyOn(api, 'createConversation')
+    createSpy.mockResolvedValueOnce({
+      conversationId: 'conv_1',
+      status: 'resolved',
+      messages: [agentMessage('Sua cotação: R$ 100/mês')],
+    })
+    render(<ChatWindow />)
+    expect(await screen.findByRole('button', { name: /fazer outra cotação/i })).toBeInTheDocument()
+
+    createSpy.mockResolvedValueOnce({
+      conversationId: 'conv_2',
+      status: 'collecting',
+      messages: [agentMessage('Oi de novo! Qual o modelo e o ano do veículo?')],
+    })
+    await user.click(screen.getByRole('button', { name: /fazer outra cotação/i }))
+
+    expect(screen.queryByText('Sua cotação: R$ 100/mês')).not.toBeInTheDocument()
+    expect(await screen.findByText(/oi de novo/i)).toBeInTheDocument()
+    expect(screen.getByLabelText('Mensagem')).toBeInTheDocument()
+    expect(createSpy).toHaveBeenCalledTimes(2)
+  })
 })

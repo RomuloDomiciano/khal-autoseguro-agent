@@ -11,8 +11,10 @@ const STATUS_LABEL: Record<string, string> = {
   handed_off: 'Transferido para um consultor',
 }
 
+const TERMINAL_STATUSES = new Set(['resolved', 'handed_off'])
+
 export function ChatWindow() {
-  const { messages, status, isAgentTyping, sendMessage } = useConversation()
+  const { messages, status, isAgentTyping, sendMessage, startNewConversation } = useConversation()
   const listRef = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
@@ -22,6 +24,7 @@ export function ChatWindow() {
     }
   }, [messages, isAgentTyping])
 
+  const isTerminal = TERMINAL_STATUSES.has(status)
   const inputDisabled = isAgentTyping || status !== 'collecting'
   const disabledReason = status !== 'collecting' ? STATUS_LABEL[status] : undefined
 
@@ -45,7 +48,15 @@ export function ChatWindow() {
         )}
       </ul>
 
-      <MessageInput disabled={inputDisabled} disabledReason={disabledReason} onSend={sendMessage} />
+      {isTerminal ? (
+        <div className="chat-window__restart">
+          <button type="button" className="chat-window__restart-button" onClick={startNewConversation}>
+            Fazer outra cotação
+          </button>
+        </div>
+      ) : (
+        <MessageInput disabled={inputDisabled} disabledReason={disabledReason} onSend={sendMessage} />
+      )}
     </section>
   )
 }
