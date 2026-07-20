@@ -1,0 +1,160 @@
+# Conversa completa — AutoSeguro Agent Service
+
+_Gerado em 2026-07-19T00:48:31.648974_
+
+**conversation_id**: `conv_dccf5e99041a`
+
+**Agente**: Oi! Aqui é da AutoSeguro 👋 Vou te ajudar a cotar o seguro do seu carro. Pra começar, me conta: qual o modelo e o ano do veículo?
+
+**Lead**: Oi! Vi o anúncio de vocês, queria cotar o seguro do meu carro. Tenho um Corolla 2018.
+**Agente**: Ótimo, Corolla 2018! E qual a sua idade?
+
+_status da conversa: `collecting`_
+
+**Lead**: Tenho 35 anos.
+**Agente**: Perfeito! Agora, qual plano você gostaria: essencial, completo ou premium?
+
+_status da conversa: `collecting`_
+
+**Lead**: Meu CEP é 01310-100.
+**Agente**: Ótimo, já tenho as informações do seu veículo e idade. Só falta saber qual plano você deseja: essencial, completo ou premium?
+
+_status da conversa: `collecting`_
+
+**Lead**: Quero o plano completo, por favor.
+**Agente**: Consegui sua cotação no plano Completo! BRL 241.38/mês, franquia de BRL 3000.00. Coberturas: colisao, roubo, furto, terceiros, vidros. Carência de 30 dias para roubo, furto.
+
+> Cotação estruturada: plano=completo, premio_mensal=241.38, franquia=3000.0, coberturas=['colisao', 'roubo', 'furto', 'terceiros', 'vidros'], carencia_dias=30, moeda=BRL
+
+_status da conversa: `resolved`_
+
+## Rastreabilidade (quote-attempts)
+
+```json
+[
+  {
+    "quoteRequestId": "qreq_6f3283e9f8fb",
+    "attemptNumber": 1,
+    "status": "succeeded",
+    "httpStatus": 200,
+    "errorClass": null,
+    "latencyMs": 8,
+    "createdAt": "2026-07-19T03:48:36.743117Z"
+  }
+]
+```
+
+## Estado final da conversa
+
+```json
+{
+  "conversationId": "conv_dccf5e99041a",
+  "status": "resolved",
+  "leadProfile": {
+    "veiculoAno": 2018,
+    "idade": 35,
+    "cep": "01310-100",
+    "planoId": "completo"
+  },
+  "messages": [
+    {
+      "id": "msg_9023eb8d0329",
+      "role": "agent",
+      "kind": "text",
+      "body": "Oi! Aqui é da AutoSeguro 👋 Vou te ajudar a cotar o seguro do seu carro. Pra começar, me conta: qual o modelo e o ano do veículo?",
+      "quoteSummary": null,
+      "createdAt": "2026-07-19T03:48:31.658760Z"
+    },
+    {
+      "id": "msg_1e7b8f3c90d5",
+      "role": "lead",
+      "kind": "text",
+      "body": "Oi! Vi o anúncio de vocês, queria cotar o seguro do meu carro. Tenho um Corolla 2018.",
+      "quoteSummary": null,
+      "createdAt": "2026-07-19T03:48:31.661542Z"
+    },
+    {
+      "id": "msg_bb1af00f9211",
+      "role": "agent",
+      "kind": "text",
+      "body": "Ótimo, Corolla 2018! E qual a sua idade?",
+      "quoteSummary": null,
+      "createdAt": "2026-07-19T03:48:33.312114Z"
+    },
+    {
+      "id": "msg_fda450633614",
+      "role": "lead",
+      "kind": "text",
+      "body": "Tenho 35 anos.",
+      "quoteSummary": null,
+      "createdAt": "2026-07-19T03:48:33.315484Z"
+    },
+    {
+      "id": "msg_fcc3e7239b94",
+      "role": "agent",
+      "kind": "text",
+      "body": "Perfeito! Agora, qual plano você gostaria: essencial, completo ou premium?",
+      "quoteSummary": null,
+      "createdAt": "2026-07-19T03:48:34.539473Z"
+    },
+    {
+      "id": "msg_3037071bf3f1",
+      "role": "lead",
+      "kind": "text",
+      "body": "Meu CEP é 01310-100.",
+      "quoteSummary": null,
+      "createdAt": "2026-07-19T03:48:34.541707Z"
+    },
+    {
+      "id": "msg_bc8516f77f0c",
+      "role": "agent",
+      "kind": "text",
+      "body": "Ótimo, já tenho as informações do seu veículo e idade. Só falta saber qual plano você deseja: essencial, completo ou premium?",
+      "quoteSummary": null,
+      "createdAt": "2026-07-19T03:48:35.463031Z"
+    },
+    {
+      "id": "msg_2c3cf40dbefb",
+      "role": "lead",
+      "kind": "text",
+      "body": "Quero o plano completo, por favor.",
+      "quoteSummary": null,
+      "createdAt": "2026-07-19T03:48:35.465609Z"
+    },
+    {
+      "id": "msg_411626985db6",
+      "role": "agent",
+      "kind": "quote",
+      "body": "Consegui sua cotação no plano Completo! BRL 241.38/mês, franquia de BRL 3000.00. Coberturas: colisao, roubo, furto, terceiros, vidros. Carência de 30 dias para roubo, furto.",
+      "quoteSummary": {
+        "planoId": "completo",
+        "planoNome": "Completo",
+        "premioMensal": 241.38,
+        "franquia": 3000.0,
+        "coberturas": [
+          "colisao",
+          "roubo",
+          "furto",
+          "terceiros",
+          "vidros"
+        ],
+        "carenciaDias": 30,
+        "moeda": "BRL"
+      },
+      "createdAt": "2026-07-19T03:48:36.743330Z"
+    }
+  ],
+  "quoteAttempts": [
+    {
+      "quoteRequestId": "qreq_6f3283e9f8fb",
+      "attemptNumber": 1,
+      "status": "succeeded",
+      "httpStatus": 200,
+      "errorClass": null,
+      "latencyMs": 8,
+      "createdAt": "2026-07-19T03:48:36.743117Z"
+    }
+  ],
+  "handoff": null
+}
+```

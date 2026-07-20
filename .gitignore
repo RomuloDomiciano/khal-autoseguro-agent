@@ -9,6 +9,8 @@ venv/
 # env / secrets (NUNCA commitar)
 .env
 .env.*
+!.env.example
+!**/.env.example
 *.key
 *.pem
 

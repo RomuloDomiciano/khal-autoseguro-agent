@@ -1,0 +1,220 @@
+[
+  {
+    "id": "case_001_informal_greeting",
+    "category": "informal_greeting",
+    "message_type": "text",
+    "lead_message": "eae, tudo bem? queria ver seguro pro meu carro",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_002_vehicle_year_simple",
+    "category": "vehicle_year_extraction",
+    "message_type": "text",
+    "lead_message": "Toyota Corolla 2018",
+    "expected_record_lead_info": {
+      "veiculo_ano": 2018
+    }
+  },
+  {
+    "id": "case_003_ambiguous_vehicle_ano",
+    "category": "ambiguous_vehicle_description",
+    "message_type": "text",
+    "lead_message": "e um Sandero, ano 2022",
+    "expected_record_lead_info": {
+      "veiculo_ano": 2022
+    }
+  },
+  {
+    "id": "case_004_last_year_is_vehicle",
+    "category": "ambiguous_vehicle_description",
+    "message_type": "text",
+    "lead_message": "comprei em 2020, mas o carro e um Onix 2019",
+    "expected_record_lead_info": {
+      "veiculo_ano": 2019
+    }
+  },
+  {
+    "id": "case_005_age_cep_and_cpf_placeholder",
+    "category": "multi_field_message",
+    "message_type": "text",
+    "lead_message": "tenho 35 anos, CEP [cep], CPF [cpf]",
+    "expected_record_lead_info": {
+      "idade": 35,
+      "cep": "[cep]"
+    }
+  },
+  {
+    "id": "case_006_vehicle_age_and_plan",
+    "category": "multi_field_message",
+    "message_type": "text",
+    "lead_message": "Corolla 2018, tenho 35 anos e quero o completo",
+    "expected_record_lead_info": {
+      "veiculo_ano": 2018,
+      "idade": 35,
+      "plano_id": "completo"
+    }
+  },
+  {
+    "id": "case_007_soft_missing_cep",
+    "category": "soft_missing_cep",
+    "message_type": "text",
+    "lead_message": "tenho 35 anos e quero o essencial, sem CEP agora",
+    "expected_record_lead_info": {
+      "idade": 35,
+      "plano_id": "essencial"
+    }
+  },
+  {
+    "id": "case_008_missing_vehicle_year",
+    "category": "missing_vehicle_year",
+    "message_type": "text",
+    "lead_message": "nao lembro o ano do carro",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_009_missing_age",
+    "category": "missing_age",
+    "message_type": "text",
+    "lead_message": "prefiro nao passar minha idade agora",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_010_missing_plan",
+    "category": "missing_plan",
+    "message_type": "text",
+    "lead_message": "qualquer plano serve pra mim",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_011_email_phone_placeholders",
+    "category": "volunteered_pii_redaction",
+    "message_type": "text",
+    "lead_message": "me chama em [email] ou [telefone], tenho 42 anos",
+    "expected_record_lead_info": {
+      "idade": 42
+    }
+  },
+  {
+    "id": "case_012_plate_placeholder",
+    "category": "volunteered_pii_redaction",
+    "message_type": "text",
+    "lead_message": "a placa e [placa] se precisar, o carro e 2020",
+    "expected_record_lead_info": {
+      "veiculo_ano": 2020
+    }
+  },
+  {
+    "id": "case_013_document_marker",
+    "category": "media_or_attachment",
+    "message_type": "document",
+    "lead_message": "[documento] documento_sanitizado.pdf",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_014_audio_marker",
+    "category": "media_or_attachment",
+    "message_type": "audio",
+    "lead_message": "[audio] mensagem de voz sem transcricao",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_015_price_objection",
+    "category": "objection_price",
+    "message_type": "text",
+    "lead_message": "o preco ta salgado",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_016_competitor_objection",
+    "category": "objection_competitor",
+    "message_type": "text",
+    "lead_message": "a concorrente me ofereceu menos",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_017_franchise_objection",
+    "category": "objection_franchise",
+    "message_type": "text",
+    "lead_message": "essa franquia ta alta",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_018_positive_acceptance",
+    "category": "positive_acceptance",
+    "message_type": "text",
+    "lead_message": "fechado, pode emitir",
+    "expected_record_lead_info": {}
+  },
+  {
+    "id": "case_019_explicit_human_request",
+    "category": "explicit_human_request",
+    "message_type": "text",
+    "lead_message": "quero falar com um atendente",
+    "expected_record_lead_info": {
+      "requests_human": true
+    },
+    "expect_handoff_keyword": true
+  },
+  {
+    "id": "case_020_out_of_scope_claim",
+    "category": "out_of_scope",
+    "message_type": "text",
+    "lead_message": "preciso abrir um sinistro",
+    "expected_record_lead_info": {
+      "out_of_scope_topic": true
+    }
+  },
+  {
+    "id": "case_021_business_refusal_age",
+    "category": "business_refusal_age",
+    "message_type": "text",
+    "lead_message": "tenho 80 anos e quero cotar",
+    "expected_record_lead_info": {
+      "idade": 80
+    }
+  },
+  {
+    "id": "case_022_business_refusal_vehicle_age",
+    "category": "business_refusal_vehicle_age",
+    "message_type": "text",
+    "lead_message": "e um hatch 2001",
+    "expected_record_lead_info": {
+      "veiculo_ano": 2001
+    }
+  },
+  {
+    "id": "case_023_complete_quote_tool_args",
+    "category": "multi_field_message",
+    "message_type": "text",
+    "lead_message": "hatch 2022, 35 anos, quero premium",
+    "expected_record_lead_info": {
+      "veiculo_ano": 2022,
+      "idade": 35,
+      "plano_id": "premium"
+    },
+    "expected_get_quote": {
+      "veiculo_ano": 2022,
+      "idade": 35,
+      "plano_id": "premium"
+    }
+  },
+  {
+    "id": "case_024_price_fabrication_guard",
+    "category": "price_fabrication_guard",
+    "message_type": "text",
+    "lead_message": "quanto fica por mes?",
+    "expected_record_lead_info": {},
+    "llm_plain_text_candidate": "Fica 199 reais por mes.",
+    "expect_price_guard": true
+  },
+  {
+    "id": "case_025_user_correction_gap",
+    "category": "user_correction_coverage_gap",
+    "message_type": "text",
+    "lead_message": "na verdade, o carro e 2019",
+    "expected_record_lead_info": {
+      "veiculo_ano": 2019
+    },
+    "notes": "Dataset coverage gap: correction markers were not observed in aggregate analysis, but this remains challenge-relevant."
+  }
+]
