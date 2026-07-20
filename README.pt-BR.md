@@ -86,6 +86,9 @@ ele só conversa com o `agent-service`, nunca diretamente com a OpenAI.
 
 ### Docker Compose (recomendado)
 
+Garanta que o Docker Desktop (ou seu daemon Docker) esteja rodando antes —
+sem isso, `docker compose up` falha imediatamente com um erro de conexão.
+
 ```bash
 docker compose up --build
 ```

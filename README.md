@@ -83,6 +83,9 @@ directly.
 
 ### Docker Compose (recommended)
 
+Make sure Docker Desktop (or your Docker daemon) is running first —
+`docker compose up` fails immediately with a connection error otherwise.
+
 ```bash
 docker compose up --build
 ```
